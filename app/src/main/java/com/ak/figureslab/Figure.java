@@ -29,4 +29,6 @@ public abstract class Figure {
     public abstract String name();
     public abstract String parameter();
     public abstract double lengthParam();
+
+    public abstract int type();
 }

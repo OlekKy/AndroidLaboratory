@@ -34,4 +34,9 @@ public class Triangle extends Figure {
     public double lengthParam() {
         return (base*sqrt(3))/2;
     }
+
+    @Override
+    public int type() {
+        return R.drawable.triangle;
+    }
 }

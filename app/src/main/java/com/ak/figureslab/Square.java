@@ -37,4 +37,9 @@ public class Square extends Figure {
     public double lengthParam() {
         return side*sqrt(2);
     }
+
+    @Override
+    public int type() {
+        return R.drawable.square;
+    }
 }

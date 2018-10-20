@@ -1,7 +1,10 @@
 package com.ak.figureslab;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.TableLayout;
@@ -16,9 +19,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.table_lay);
 
+
         TableLayout mainLayout = findViewById(R.id.tl);
 
-        Figure[] figures = generateFigures();
+        Button goSettings =  findViewById(R.id.button4);
+        goSettings.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    Intent k = new Intent(MainActivity.this, Settings.class);
+                    startActivity(k);
+            }
+        });
+
+        Button goStats = findViewById(R.id.button5);
+        goStats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent stats = new Intent(MainActivity.this, Statistics.class);
+                startActivity(stats);
+            }
+        });
+
+        Figure[] figures = generateFigures(100);
         int numberElements = figures.length;
 
 
@@ -35,9 +57,17 @@ public class MainActivity extends AppCompatActivity {
 
             if (figures[i].type() == R.drawable.square){
                 Square square = (Square) figures[i];
-
+                //removeView(tableRow);
                 ImageView imgView = new ImageView(this);
+                //ImageView imgView = findViewById(R.id.imageView);
                 imgView.setImageResource(R.drawable.square);
+
+
+//                if(imgView.getParent()!=null){
+//                    ((ViewGroup)imgView.getParent()).removeView(imgView);
+//                    imgView.setImageResource(R.drawable.square);
+//                }
+                //tableRow.removeView(imgView);
                 tableRow.addView(imgView);
 
 //                TableRow.LayoutParams layoutParams;
@@ -46,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 //                imgView.setLayoutParams(layoutParams);
 
                 TextView txtView1 = new TextView(this);
-                String fieldValue = String.format("%.3f ",square.field(square.getSide()));
+                String fieldValue = String.format("                   %.3f            ",square.field(square.getSide()));
                 txtView1.setText(fieldValue);
                 tableRow.addView(txtView1);
 
@@ -71,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 tableRow.addView(imgView);
 
                 TextView txtView1 = new TextView(this);
-                String fieldValue = String.format("%.3f ",triangle.field(triangle.getBase()));
+                String fieldValue = String.format("                   %.3f            ",triangle.field(triangle.getBase()));
                 txtView1.setText(fieldValue);
                 tableRow.addView(txtView1);
 
@@ -89,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                 tableRow.addView(imgView);
 
                 TextView txtView1 = new TextView(this);
-                String fieldValue = String.format("%.3f ",circle.field(circle.getRadius()));
+                String fieldValue = String.format("                   %.3f            ",circle.field(circle.getRadius()));
                 txtView1.setText(fieldValue);
                 tableRow.addView(txtView1);
 
@@ -118,8 +148,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public Figure[] generateFigures(){
-        int a=100;
+    public Figure[] generateFigures(int a){
+
+
+
+         a=100;
 
         Random generator = new Random();
         float[][] los = new float[a][2];

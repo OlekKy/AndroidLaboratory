@@ -16,6 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Settings"
+            android:label="Ustawienia">
+        </activity>
+        <activity
+            android:name=".Statistics"
+            android:label="Statystyki">
+        </activity>
     </application>
 
 </manifest>

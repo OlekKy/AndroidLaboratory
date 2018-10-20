@@ -37,4 +37,9 @@ public class Circle extends Figure {
     public double lengthParam() {
         return 2*radius;
     }
+
+    @Override
+    public int type() {
+        return R.drawable.circle;
+    }
 }
