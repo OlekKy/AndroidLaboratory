@@ -86,7 +86,7 @@
 
     </RelativeLayout>
     <ScrollView
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="false"
 
@@ -99,13 +99,7 @@
             android:layout_width="fill_parent"
             android:layout_height="match_parent">
 
-            <TableRow
-                android:id="@+id/single_row"
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent">
 
-
-            </TableRow>
 
         </TableLayout>
     </ScrollView>

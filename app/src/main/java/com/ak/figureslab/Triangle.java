@@ -16,8 +16,8 @@ public class Triangle extends Figure {
         this.base = base;
     }
     @Override
-    public double field(float a) {
-        return (pow(a,2) * sqrt(3)) /4;
+    public double field() {
+        return (pow(base,2) * sqrt(3)) /4;
     }
 
     @Override

@@ -25,7 +25,8 @@ public abstract class Figure {
         this.linearDimension = linearDimension;
     }
 
-    public abstract double field(float linearDimension);
+    public abstract double field();
+
     public abstract String name();
     public abstract String parameter();
     public abstract double lengthParam();

@@ -19,8 +19,9 @@ public class Square extends Figure {
     }
 
     @Override
-    public double field(float a) {
-        return pow(a,2);
+    public double field() {
+
+        return pow(side,2);
     }
 
     @Override

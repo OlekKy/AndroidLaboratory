@@ -16,7 +16,7 @@ public class Settings extends AppCompatActivity {
         setContentView(R.layout.settings_layout);
 
         EditText editFiguresNr = findViewById(R.id.editText2);
-       // editFiguresNr.addTextChangedListener();
+
 
 
         Button generateFigures = findViewById(R.id.button);

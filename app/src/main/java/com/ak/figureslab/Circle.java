@@ -19,8 +19,8 @@ public class Circle extends Figure {
     }
 
     @Override
-    public double field(float r) {
-        return PI*pow(r,2);
+    public double field() {
+        return PI*pow(radius,2);
     }
 
     @Override

@@ -18,24 +18,24 @@ public class MainClass {
             if (x < 0.333f) {
                 figures[i] = new Square(x);
                 figures[i].setLinearDimension(x);
-                sumOfSquares =  sumOfSquares + figures[i].field(x);
+                sumOfSquares =  sumOfSquares + figures[i].field();
             }
             if (x > 0.333f && x < 0.666f){
                 figures[i] = new Circle(x);
                 figures[i].setLinearDimension(x);
-                sumOfCircles = sumOfCircles + figures[i].field(x);
+                sumOfCircles = sumOfCircles + figures[i].field();
             }
             if (x > 0.666f) {
                 figures[i] = new Triangle(x);
                 figures[i].setLinearDimension(x);
-                sumOfTriangles = sumOfTriangles + figures[i].field(x);
+                sumOfTriangles = sumOfTriangles + figures[i].field();
             }
         }
 
 
         for(int i = 0; i < n ; i++ ){
             System.out.format("%-7s o polu %.3f i %-10s %.3f i jednostce podstawowej: %.3f",
-                    figures[i].name(), figures[i].field(figures[i].getLinearDimension()),
+                    figures[i].name(), figures[i].field(),
                     figures[i].parameter(), figures[i].lengthParam(), figures[i].getLinearDimension() );
             System.out.println();
         }

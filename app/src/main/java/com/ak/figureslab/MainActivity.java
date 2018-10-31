@@ -1,6 +1,8 @@
 package com.ak.figureslab;
 
 import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,24 +12,35 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
+
+    public LinkedList<Figure> figureList;
+    TableLayout mainLayout;
+    TableRow tableRow;
+    private boolean state = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.table_lay);
 
+        mainLayout = findViewById(R.id.tl);
 
-        TableLayout mainLayout = findViewById(R.id.tl);
+        figureList = generateFigures(100);
+        showTable(figureList);
 
-        Button goSettings =  findViewById(R.id.button4);
-        goSettings.setOnClickListener( new View.OnClickListener() {
+        Button goSettings = findViewById(R.id.button4);
+        goSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    Intent k = new Intent(MainActivity.this, Settings.class);
-                    startActivity(k);
+                Intent k = new Intent(MainActivity.this, Settings.class);
+                startActivity(k);
             }
         });
 
@@ -40,43 +53,71 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Figure[] figures = generateFigures(100);
-        int numberElements = figures.length;
+        Button fieldSort = findViewById(R.id.button2);
+        fieldSort.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                LinkedList<Figure> sortedList;
+
+                if (state){
+                    Collections.sort(figureList, new Comparator<Figure>() {
+                        @Override
+                        public int compare(Figure o1, Figure o2) {
+
+                            return Double.valueOf(o1.field()).compareTo(o2.field());
+                        }
+                    });
+                    sortedList = figureList;
+                    showTable(sortedList);
+                    mainLayout.invalidate();
+                    for (int i = 0 ; i < figureList.size() ; i ++){
+
+                        System.out.println(i +": " + sortedList.get(i).name() + " pole: " + sortedList.get(i).field());
+                    }
+                    state = false;
+                } else {
+                    Collections.sort(figureList, new Comparator<Figure>() {
+                        @Override
+                        public int compare(Figure o1, Figure o2) {
+
+                            return Double.valueOf(o2.field()).compareTo(o1.field());
+                        }
+                    });
+                    sortedList = figureList;
+                    showTable(sortedList);
+                    mainLayout.invalidate();
+                    for (int i = 0 ; i < figureList.size() ; i ++){
+
+                        System.out.println(i +": " + sortedList.get(i).name() + " pole: " + sortedList.get(i).field());
+                    }
+                    state = true;
+                }
+
+            }
+        });
+    }
 
 
-        for (int i = 0; i < numberElements; i++) {
-            TableRow tableRow = new TableRow(this); // WORKING
-           // TableRow tableRow =  mainLayout.findViewById(R.id.single_row); // TEST
+    public void showTable(LinkedList<Figure> figList) {
+        mainLayout.removeAllViews();
 
-           // LayoutInflater inflater = getLayoutInflater();
-            //tableRow = rl.findViewById(R.id.tabRow);
-            //View myLayout = inflater.inflate(R.layout.row, tableRow, false);
+        for (int i = 0; i < figList.size(); i++) {
+            tableRow = new TableRow(this); // WORKING
 
             tableRow.setLayoutParams(new LayoutParams(
-                    LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+                    LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
 
-            if (figures[i].type() == R.drawable.square){
-                Square square = (Square) figures[i];
-                //removeView(tableRow);
+            if (figList.get(i).type() == R.drawable.square) {
+                Square square = (Square) figList.get(i);
+
                 ImageView imgView = new ImageView(this);
-                //ImageView imgView = findViewById(R.id.imageView);
+
                 imgView.setImageResource(R.drawable.square);
-
-
-//                if(imgView.getParent()!=null){
-//                    ((ViewGroup)imgView.getParent()).removeView(imgView);
-//                    imgView.setImageResource(R.drawable.square);
-//                }
-                //tableRow.removeView(imgView);
                 tableRow.addView(imgView);
 
-//                TableRow.LayoutParams layoutParams;
-//                layoutParams = (TableRow.LayoutParams) imgView.getLayoutParams();
-//                layoutParams.span = 5;
-//                imgView.setLayoutParams(layoutParams);
-
                 TextView txtView1 = new TextView(this);
-                String fieldValue = String.format("                   %.3f            ",square.field(square.getSide()));
+                String fieldValue = String.format("                   %.3f            ", square.field());
                 txtView1.setText(fieldValue);
                 tableRow.addView(txtView1);
 
@@ -85,23 +126,18 @@ public class MainActivity extends AppCompatActivity {
                 txtView2.setText(attrValue);
                 tableRow.addView(txtView2);
 
-//                TableRow.LayoutParams layoutParams2;
-//                layoutParams2 = (TableRow.LayoutParams) txtView1.getLayoutParams();
-//                layoutParams2.span = 2;
-//                txtView1.setLayoutParams(layoutParams2);
 
-                mainLayout.addView(tableRow);
+                //mainLayout.addView(tableRow);
 
-            }
-            else if (figures[i].type() == R.drawable.triangle){
-                Triangle triangle = (Triangle) figures[i];
+            } else if (figList.get(i).type() == R.drawable.triangle) {
+                Triangle triangle = (Triangle) figList.get(i);
 
                 ImageView imgView = new ImageView(this);
                 imgView.setImageResource(R.drawable.triangle);
                 tableRow.addView(imgView);
 
                 TextView txtView1 = new TextView(this);
-                String fieldValue = String.format("                   %.3f            ",triangle.field(triangle.getBase()));
+                String fieldValue = String.format("                   %.3f            ", triangle.field());
                 txtView1.setText(fieldValue);
                 tableRow.addView(txtView1);
 
@@ -110,16 +146,15 @@ public class MainActivity extends AppCompatActivity {
                 txtView2.setText(attrValue);
                 tableRow.addView(txtView2);
 
-                mainLayout.addView(tableRow);
-            }
-            else {
-                Circle circle = (Circle) figures[i];
+                //mainLayout.addView(tableRow);
+            } else {
+                Circle circle = (Circle) figList.get(i);
                 ImageView imgView = new ImageView(this);
                 imgView.setImageResource(R.drawable.circle);
                 tableRow.addView(imgView);
 
                 TextView txtView1 = new TextView(this);
-                String fieldValue = String.format("                   %.3f            ",circle.field(circle.getRadius()));
+                String fieldValue = String.format("                   %.3f            ", circle.field());
                 txtView1.setText(fieldValue);
                 tableRow.addView(txtView1);
 
@@ -128,32 +163,15 @@ public class MainActivity extends AppCompatActivity {
                 txtView2.setText(attrValue);
                 tableRow.addView(txtView2);
 
-                mainLayout.addView(tableRow);
+                //mainLayout.addView(tableRow);
             }
-
-//            TextView text_view = new TextView(this);
-//            text_view.setWidth(400);
-//            text_view.setText("TEKST : " + i);
-//            tableRow.addView(text_view);
-//            ImageView imgView = new ImageView(this);
-//            imgView.setImageResource(R.drawable.square);
-//            tableRow.addView(imgView);
-//            mainLayout.addView(tableRow);
-            //ImageView imgView = myLayout.findViewById(R.id.imageView);
-            //imgView.setImageResource(R.drawable.square);
-            //tableRow.addView(myLayout);
-
+            mainLayout.addView(tableRow);
 
         }
-
     }
 
-    public Figure[] generateFigures(int a){
-
-
-
+    public LinkedList<Figure> generateFigures(int a){
          a=100;
-
         Random generator = new Random();
         float[][] los = new float[a][2];
 
@@ -162,16 +180,20 @@ public class MainActivity extends AppCompatActivity {
             los[i][1] = generator.nextFloat();
         }
 
-        Figure[] figures = new Figure[a];
+        LinkedList<Figure> figures = new LinkedList<>();
+
         for(int i = 0; i < a; i++){
             if (los[i][0]==0) {
-                figures[i]= new Square(los[i][1]);
+                //figures[i]= new Square(los[i][1]);
+                figures.add(new Square(los[i][1]));
             }
             else if (los[i][0]==1) {
-                figures[i]= new Triangle(los[i][1]);
+               // figures[i]= new Triangle(los[i][1]);
+                figures.add(new Triangle(los[i][1]));
             }
             else {
-                figures[i]= new Circle(los[i][1]);
+               // figures[i]= new Circle(los[i][1]);
+                figures.add(new Circle(los[i][1]));
             }
         }
 
