@@ -53,6 +53,40 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button nameSort = findViewById(R.id.button1);
+        nameSort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LinkedList<Figure> sortedList;
+
+                if (state){
+                    Collections.sort(figureList, new Comparator<Figure>() {
+                        @Override
+                        public int compare(Figure o1, Figure o2) {
+
+                            return String.valueOf(o1.name()).compareTo(o2.name());
+                        }
+                    });
+                    sortedList = figureList;
+                    showTable(sortedList);
+                    mainLayout.invalidate();
+                    state = false;
+                } else {
+                    Collections.sort(figureList, new Comparator<Figure>() {
+                        @Override
+                        public int compare(Figure o1, Figure o2) {
+
+                            return String.valueOf(o2.name()).compareTo(o1.name());
+                        }
+                    });
+                    sortedList = figureList;
+                    showTable(sortedList);
+                    mainLayout.invalidate();
+                    state = true;
+                }
+            }
+        });
+
         Button fieldSort = findViewById(R.id.button2);
         fieldSort.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -71,10 +105,6 @@ public class MainActivity extends AppCompatActivity {
                     sortedList = figureList;
                     showTable(sortedList);
                     mainLayout.invalidate();
-                    for (int i = 0 ; i < figureList.size() ; i ++){
-
-                        System.out.println(i +": " + sortedList.get(i).name() + " pole: " + sortedList.get(i).field());
-                    }
                     state = false;
                 } else {
                     Collections.sort(figureList, new Comparator<Figure>() {
@@ -87,13 +117,43 @@ public class MainActivity extends AppCompatActivity {
                     sortedList = figureList;
                     showTable(sortedList);
                     mainLayout.invalidate();
-                    for (int i = 0 ; i < figureList.size() ; i ++){
-
-                        System.out.println(i +": " + sortedList.get(i).name() + " pole: " + sortedList.get(i).field());
-                    }
                     state = true;
                 }
 
+            }
+        });
+
+        Button paramSort = findViewById(R.id.button3);
+        paramSort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LinkedList<Figure> sortedList;
+
+                if (state){
+                    Collections.sort(figureList, new Comparator<Figure>() {
+                        @Override
+                        public int compare(Figure o1, Figure o2) {
+
+                            return Double.valueOf(o1.lengthParam()).compareTo(o2.lengthParam());
+                        }
+                    });
+                    sortedList = figureList;
+                    showTable(sortedList);
+                    mainLayout.invalidate();
+                    state = false;
+                } else {
+                    Collections.sort(figureList, new Comparator<Figure>() {
+                        @Override
+                        public int compare(Figure o1, Figure o2) {
+
+                            return Double.valueOf(o2.lengthParam()).compareTo(o1.lengthParam());
+                        }
+                    });
+                    sortedList = figureList;
+                    showTable(sortedList);
+                    mainLayout.invalidate();
+                    state = true;
+                }
             }
         });
     }
@@ -171,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public LinkedList<Figure> generateFigures(int a){
-         a=100;
+        a=100;
         Random generator = new Random();
         float[][] los = new float[a][2];
 
@@ -188,15 +248,12 @@ public class MainActivity extends AppCompatActivity {
                 figures.add(new Square(los[i][1]));
             }
             else if (los[i][0]==1) {
-               // figures[i]= new Triangle(los[i][1]);
                 figures.add(new Triangle(los[i][1]));
             }
             else {
-               // figures[i]= new Circle(los[i][1]);
                 figures.add(new Circle(los[i][1]));
             }
         }
-
         return figures;
     }
 }
