@@ -49,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent stats = new Intent(MainActivity.this, Statistics.class);
-                startActivity(stats);
+                //startActivity(stats);
+                startActivityForResult(stats, 2);
             }
         });
 
@@ -255,5 +256,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return figures;
+    }
+
+    public static int countFigures(){
+        int number = 33;
+
+        return number;
     }
 }
