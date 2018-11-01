@@ -20,7 +20,7 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    public LinkedList<Figure> figureList;
+    public static LinkedList<Figure> figureList;
     TableLayout mainLayout;
     TableRow tableRow;
     private boolean state = true;
@@ -258,9 +258,87 @@ public class MainActivity extends AppCompatActivity {
         return figures;
     }
 
-    public static int countFigures(){
-        int number = 33;
-
+    public static int countCircles(){
+        int number = 0;
+        for (int i = 0 ; i < figureList.size() ; i++ ) {
+            if (figureList.get(i).name() == "KOLO"){
+                number++;
+            }
+        }
         return number;
     }
+    public static int countSquares(){
+        int number = 0;
+        for (int i = 0 ; i < figureList.size() ; i++ ) {
+            if (figureList.get(i).name() == "KWADRAT"){
+                number++;
+            }
+        }
+        return number;
+    }
+    public static int countTriangles(){
+        int number = 0;
+        for (int i = 0 ; i < figureList.size() ; i++ ) {
+            if (figureList.get(i).name() == "TROJKAT"){
+                number++;
+            }
+        }
+        return number;
+    }
+    public static double fieldOfAllCircles(){
+        double number = 0;
+        for (int i = 0 ; i < figureList.size() ; i++){
+            if (figureList.get(i).name() == "KOLO"){
+                number = number + figureList.get(i).field();
+            }
+        }
+        return number;
+    }
+    public static double fieldOfAllSquares(){
+        double number = 0;
+        for (int i = 0 ; i < figureList.size() ; i++){
+            if (figureList.get(i).name() == "KWADRAT"){
+                number = number + figureList.get(i).field();
+            }
+        }
+        return number;
+    }
+    public static double fieldOfAllTriangles(){
+        double number = 0;
+        for (int i = 0 ; i < figureList.size() ; i++){
+            if (figureList.get(i).name() == "TROJKAT"){
+                number = number + figureList.get(i).field();
+            }
+        }
+        return number;
+    }
+    public static double paramsOfAllCircles(){
+        double number = 0;
+        for (int i = 0 ; i < figureList.size() ; i++){
+            if (figureList.get(i).name() == "KOLO"){
+                number = number + figureList.get(i).lengthParam();
+            }
+        }
+        return number;
+    }
+    public static double paramsOfAllSquares(){
+        double number = 0;
+        for (int i = 0 ; i < figureList.size() ; i++){
+            if (figureList.get(i).name() == "KWADRAT"){
+                number = number + figureList.get(i).lengthParam();
+            }
+        }
+        return number;
+    }
+
+    public static double paramsOfAllTriangles(){
+        double number = 0;
+        for (int i = 0 ; i < figureList.size() ; i++){
+            if (figureList.get(i).name() == "TROJKAT"){
+                number = number + figureList.get(i).lengthParam();
+            }
+        }
+        return number;
+    }
+
 }
