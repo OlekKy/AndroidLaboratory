@@ -37,7 +37,7 @@ public class Statistics extends AppCompatActivity {
         double fOT = MainActivity.fieldOfAllTriangles();
         String traFields = String.format("%.3f", fOT);
         fieldOfTriangles.setText(traFields);
-//
+
         TextView paramsOfCircles = findViewById(R.id.textView21);
         double pOC = MainActivity.paramsOfAllCircles();
         String cirPar = String.format("%.3f", pOC);

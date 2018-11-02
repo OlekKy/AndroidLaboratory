@@ -21,8 +21,10 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     public static LinkedList<Figure> figureList;
-    TableLayout mainLayout;
-    TableRow tableRow;
+    public static LinkedList<TableRow> rowsList;
+
+    public static TableLayout mainLayout;
+    public static TableRow tableRow;
     private boolean state = true;
 
     @Override
@@ -32,8 +34,15 @@ public class MainActivity extends AppCompatActivity {
 
         mainLayout = findViewById(R.id.tl);
 
-        figureList = generateFigures(100);
+        figureList = generateFigures(100,0,1);
         showTable(figureList);
+
+//        tableRow.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                tableRow.setBackgroundColor(-65536);
+//            }
+//        });
 
         Button goSettings = findViewById(R.id.button4);
         goSettings.setOnClickListener(new View.OnClickListener() {
@@ -49,8 +58,38 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent stats = new Intent(MainActivity.this, Statistics.class);
-                //startActivity(stats);
-                startActivityForResult(stats, 2);
+                startActivity(stats);
+            }
+        });
+
+        Button clearList = findViewById(R.id.button6);
+        clearList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                figureList = generateFigures(100, 0, 1);
+                showTable(figureList);
+            }
+        });
+
+        Button addRandomFigure = findViewById(R.id.button7);
+        addRandomFigure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Random generator = new Random();
+                float[][] newFigure = new float[2][2];
+                newFigure[1][0] = generator.nextInt(3);
+                newFigure[1][1] = generator.nextFloat();
+                if (newFigure[1][0]==0) {
+
+                    figureList.add(0, new Square(newFigure[1][1]));
+                }
+                else if (newFigure[1][0]==1) {
+                    figureList.add(0, new Triangle(newFigure[1][1]));
+                }
+                else {
+                    figureList.add(0, new Circle(newFigure[1][1]));
+                }
+                showTable(figureList);
             }
         });
 
@@ -160,49 +199,47 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void showTable(LinkedList<Figure> figList) {
+    public static void showTable(LinkedList<Figure> figList) {
         mainLayout.removeAllViews();
-
+        rowsList = new LinkedList<>();
         for (int i = 0; i < figList.size(); i++) {
-            tableRow = new TableRow(this); // WORKING
+            tableRow = new TableRow(mainLayout.getContext()); // WORKING
 
             tableRow.setLayoutParams(new LayoutParams(
                     LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
 
+
             if (figList.get(i).type() == R.drawable.square) {
                 Square square = (Square) figList.get(i);
 
-                ImageView imgView = new ImageView(this);
+                ImageView imgView = new ImageView(mainLayout.getContext());
 
                 imgView.setImageResource(R.drawable.square);
                 tableRow.addView(imgView);
 
-                TextView txtView1 = new TextView(this);
+                TextView txtView1 = new TextView(mainLayout.getContext());
                 String fieldValue = String.format("                   %.3f            ", square.field());
                 txtView1.setText(fieldValue);
                 tableRow.addView(txtView1);
 
-                TextView txtView2 = new TextView(this);
+                TextView txtView2 = new TextView(mainLayout.getContext());
                 String attrValue = String.format("Przekatna \n %.3f", square.lengthParam());
                 txtView2.setText(attrValue);
                 tableRow.addView(txtView2);
 
-
-                //mainLayout.addView(tableRow);
-
             } else if (figList.get(i).type() == R.drawable.triangle) {
                 Triangle triangle = (Triangle) figList.get(i);
 
-                ImageView imgView = new ImageView(this);
+                ImageView imgView = new ImageView(mainLayout.getContext());
                 imgView.setImageResource(R.drawable.triangle);
                 tableRow.addView(imgView);
 
-                TextView txtView1 = new TextView(this);
+                TextView txtView1 = new TextView(mainLayout.getContext());
                 String fieldValue = String.format("                   %.3f            ", triangle.field());
                 txtView1.setText(fieldValue);
                 tableRow.addView(txtView1);
 
-                TextView txtView2 = new TextView(this);
+                TextView txtView2 = new TextView(mainLayout.getContext());
                 String attrValue = String.format("Wysokosc \n %.3f", triangle.lengthParam());
                 txtView2.setText(attrValue);
                 tableRow.addView(txtView2);
@@ -210,42 +247,54 @@ public class MainActivity extends AppCompatActivity {
                 //mainLayout.addView(tableRow);
             } else {
                 Circle circle = (Circle) figList.get(i);
-                ImageView imgView = new ImageView(this);
+                ImageView imgView = new ImageView(mainLayout.getContext());
                 imgView.setImageResource(R.drawable.circle);
                 tableRow.addView(imgView);
 
-                TextView txtView1 = new TextView(this);
+                TextView txtView1 = new TextView(mainLayout.getContext());
                 String fieldValue = String.format("                   %.3f            ", circle.field());
                 txtView1.setText(fieldValue);
                 tableRow.addView(txtView1);
 
-                TextView txtView2 = new TextView(this);
+                TextView txtView2 = new TextView(mainLayout.getContext());
                 String attrValue = String.format("Srednica \n %.3f", circle.lengthParam());
                 txtView2.setText(attrValue);
                 tableRow.addView(txtView2);
-
                 //mainLayout.addView(tableRow);
             }
+            rowsList.add(tableRow);
             mainLayout.addView(tableRow);
+        }
+        for ( int x = 0 ; x < rowsList.size() ; x++)
+            System.out.println(rowsList.get(x) + " : " + x);
+        for ( int y = 0 ; y < rowsList.size() ; y++){
+            final int finalY = y;
+            rowsList.get(y).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    for (int z = 0 ; z < rowsList.size(); z ++){
+                        rowsList.get(z).setBackgroundColor(0);
+                    }
+                    rowsList.get(finalY).setBackgroundColor(-256);
+                }
+            });
 
         }
     }
 
-    public LinkedList<Figure> generateFigures(int a){
-        a=100;
+    public static LinkedList<Figure> generateFigures(int a, float min, float max){
         Random generator = new Random();
         float[][] los = new float[a][2];
 
         for(int i = 0; i < a; i++){
             los[i][0] = generator.nextInt(3);
-            los[i][1] = generator.nextFloat();
+            los[i][1] = min + generator.nextFloat() * (max - min) ;
         }
 
         LinkedList<Figure> figures = new LinkedList<>();
 
         for(int i = 0; i < a; i++){
             if (los[i][0]==0) {
-                //figures[i]= new Square(los[i][1]);
                 figures.add(new Square(los[i][1]));
             }
             else if (los[i][0]==1) {
