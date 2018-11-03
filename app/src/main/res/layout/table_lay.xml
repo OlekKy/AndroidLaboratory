@@ -6,8 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="8dp"
-    android:paddingRight="8dp"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -18,7 +18,11 @@
         android:orientation="horizontal"
         android:paddingLeft="4dp"
         android:paddingRight="4dp">
-
+<TableLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:stretchColumns="*">
+    <TableRow>
         <Button
             android:id="@+id/button4"
             android:layout_width="wrap_content"
@@ -70,6 +74,10 @@
             android:layout_weight="1"
             android:text="Dodaj"
             android:textSize="10sp" />
+    </TableRow>
+
+</TableLayout>
+
 
     </RelativeLayout>
     <RelativeLayout
@@ -78,9 +86,13 @@
         android:gravity="center"
 
         android:orientation="horizontal"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp">
-
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp">
+<TableLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:stretchColumns="*">
+    <TableRow>
         <Button
             android:id="@+id/button1"
             android:layout_width="wrap_content"
@@ -108,6 +120,10 @@
             android:layout_alignBottom="@+id/button2"
             android:layout_toRightOf="@+id/button2"
             android:text="Cecha" />
+    </TableRow>
+
+</TableLayout>
+
 
 
     </RelativeLayout>
@@ -123,8 +139,7 @@
         <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/tl"
             android:layout_width="fill_parent"
-            android:layout_height="match_parent">
-
+            android:layout_height="wrap_content">
 
 
         </TableLayout>
